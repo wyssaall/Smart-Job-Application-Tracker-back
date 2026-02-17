@@ -43,4 +43,32 @@ const register =async(req,res)=>{
   
 }
 
-export {login,register};
+//one user profile
+const getProfile = async(req,res)=>{
+    const {id} = req.params;
+    const user = await User.findById(id);
+    if(!user){
+        return res.status(404).json({message:'user not found'});
+    }
+    return res.status(200).json({user});
+
+}
+
+//update user password
+const updatePassword = async(req,res)=>{
+    const {id} = req.params;
+    const {oldPassword,newPassword} = req.body;
+    const user = await User.findById(id);
+    if(!user){
+      return res.status(404).json({message:'user not found'});
+
+    }
+    const passMatch = await bcrypt.compare(oldPassword,user.password);
+    if(passMatch){
+      const hashedPass = await bcrypt.hash(newPassword,10);
+      user.password = hashedPass;
+      await user.save();
+      return res.status(200).json({message:'password updated'});
+    }
+}
+export {login,register, getProfile, updatePassword};
