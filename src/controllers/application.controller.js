@@ -5,8 +5,6 @@ const allApplication = async (req, res) => {
     const userId = req.user.id;
     const { status, sortBy = '-appliedDate' } = req.query;
 
-    console.log(`Fetching applications for userId: ${userId} with status: ${status} and sortBy: ${sortBy}`);
-
     let query = { userId };
     if (status) {
       query.status = status;
@@ -89,13 +87,7 @@ const createApplication = async (req, res) => {
       notes
     } = req.body;
 
-    // Validation basique
-    if (!companyName || !position) {
-      return res.status(400).json({
-        success: false,
-        message: 'Company name and position are required'
-      });
-    }
+    // Validation basique (Now handled by applicationValidator)
 
     // Auto-calcul followUpDate si non fourni
     let calculatedFollowUpDate = followUpDate;
