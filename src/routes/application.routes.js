@@ -1,5 +1,5 @@
 import express from 'express';
-import { allApplication, createApplication, deleteApplication, getOneApplication, updateApplication } from '../controllers/application.controller.js';
+import { allApplication, createApplication, deleteApplication, updateApplication } from '../controllers/application.controller.js';
 import protect from '../middlewares/protect.js';
 
 const applicationRouter = express.Router();
